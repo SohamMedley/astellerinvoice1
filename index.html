@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASTELLER - POSTER DESIGN INVOICE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 191, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 255, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 123, 255, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            50% { transform: translateX(-20px) translateY(-10px); }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #00bfff, #00ffff);
+            border-radius: 2px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px rgba(0, 191, 255, 0.5); }
+            to { box-shadow: 0 0 20px rgba(0, 255, 255, 0.8); }
+        }
+
+        .header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #00bfff, #00ffff, #0080ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: #888;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .invoice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+            padding: 40px;
+            background: rgba(15, 15, 15, 0.8);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .invoice-section h3 {
+            font-size: 1.2rem;
+            color: #00bfff;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .invoice-detail {
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .invoice-detail .label {
+            color: #aaa;
+            font-weight: 500;
+        }
+
+        .invoice-detail .value {
+            color: #fff;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .products-section {
+            margin-bottom: 60px;
+        }
+
+        .products-header {
+            display: grid;
+            grid-template-columns: 80px 1fr 120px;
+            gap: 20px;
+            padding: 20px 30px;
+            background: rgba(0, 191, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+            color: #00bfff;
+        }
+
+        .product-item {
+            display: grid;
+            grid-template-columns: 80px 1fr 120px;
+            gap: 20px;
+            padding: 25px 30px;
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 16px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 191, 255, 0.05), rgba(0, 255, 255, 0.02));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-item:hover::before {
+            opacity: 1;
+        }
+
+        .product-item:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0, 191, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 191, 255, 0.1);
+        }
+
+        .product-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00bfff, #0080ff);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        }
+
+        .product-details h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .product-details p {
+            color: #888;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #00ffff;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: right;
+        }
+
+        .total-section {
+            background: rgba(15, 15, 15, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 60px;
+            border: 2px solid rgba(0, 191, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .total-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 191, 255, 0.05), rgba(0, 255, 255, 0.02));
+        }
+
+        .total-section .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .total-row:last-child {
+            border-bottom: none;
+            padding-top: 25px;
+            margin-top: 15px;
+            border-top: 2px solid rgba(0, 191, 255, 0.3);
+        }
+
+        .total-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #aaa;
+        }
+
+        .total-amount {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .final-total .total-label {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #00bfff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .final-total .total-amount {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00bfff, #00ffff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .payment-section {
+            text-align: center;
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 24px;
+            padding: 50px 40px;
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 191, 255, 0.05), transparent);
+        }
+
+        .payment-section .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .payment-section h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #00bfff;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .payment-section p {
+            color: #888;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .qr-container {
+            display: inline-block;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 191, 255, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(0, 255, 255, 0.5); }
+        }
+
+        .qr-container img {
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #00bfff, #0080ff);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .download-btn:hover::before {
+            left: 100%;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 191, 255, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .invoice-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 30px 20px;
+            }
+
+            .products-header,
+            .product-item {
+                grid-template-columns: 60px 1fr 100px;
+                gap: 15px;
+                padding: 20px;
+            }
+
+            .product-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .total-section,
+            .payment-section {
+                padding: 30px 20px;
+            }
+
+            .qr-container img {
+                width: 160px;
+                height: 160px;
+            }
+        }
+
+        .loading-animation {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        .stagger-5 { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    
+    <div class="container">
+        <header class="header loading-animation stagger-1">
+            <h1>THANK YOU, ASTELLER!</h1>
+            <p class="subtitle">Poster Design Invoice</p>
+        </header>
+
+        <div class="invoice-grid loading-animation stagger-2">
+            <div class="invoice-section">
+                <h3>Invoice Details</h3>
+                <div class="invoice-detail">
+                    <span class="label">Invoice:</span>
+                    <span class="value">#AST-2025-08-01</span>
+                </div>
+                <div class="invoice-detail">
+                    <span class="label">Date:</span>
+                    <span class="value" id="currentDate"></span>
+                </div>
+                
+            </div>
+
+            <div class="invoice-section">
+                <h3>Bill To</h3>
+                <div class="invoice-detail">
+                    <span class="label">Client:</span>
+                    <span class="value">Asteller</span>
+                </div>
+                <div class="invoice-detail">
+                    <span class="label">Project:</span>
+                    <span class="value">Music Posters</span>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="products-section loading-animation stagger-3">
+            <div class="products-header">
+                <div>Item</div>
+                <div>Description</div>
+                
+            </div>
+
+            <div class="product-item">
+                <div class="product-icon">
+    <img src="Images/audio.jpg" alt="Audio Poster" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
+</div>
+                <div class="product-details">
+                    <h4>Audio Poster Design</h4>
+                    <p>Professional audio poster design for music promotion with modern aesthetics and brand alignment</p>
+                </div>
+            </div>
+
+            <div class="product-item">
+                <div class="product-icon">
+    <img src="Images/video.jpg" alt="Video Poster" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
+</div>
+                <div class="product-details">
+                    <h4>Video Poster Design</h4>
+                    <p>High-impact video poster design optimized for social media and digital platforms</p>
+                </div>
+            </div>
+
+            <div class="product-item">
+                <div class="product-icon">
+    <img src="Images/banner.jpg" alt="YouTube Banner" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
+</div>
+                <div class="product-details">
+                    <h4>YouTube Banner Design</h4>
+                    <p>Custom YouTube banner design with channel branding and professional layout</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="total-section loading-animation stagger-4">
+            <div class="content">
+                <div class="total-row final-total">
+                    <span class="total-label">Total Amount:</span>
+                    <span class="total-amount">₹999</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="payment-section loading-animation stagger-5">
+            <div class="content">
+                <h3>Scan to Pay</h3>
+                <p>Use any UPI app to scan the QR code and make payment</p>
+                
+<div class="qr-container" style="display: inline-flex; flex-direction: column; align-items: center;">
+    <img src="Images/pay.jpg" alt="Payment QR Code" style="margin-bottom: 15px; width:200px; height:200px; border-radius:12px;">
+    <button class="download-btn" onclick="downloadQR()">
+       Download QR
+    </button>
+</div>
+
+
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Thank you for your business!</p>
+            <p>© 2025 dzynsbysoham. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Set current date and due date
+        function setDates() {
+            const now = new Date();
+            const dueDate = new Date(now.getTime() + (7 * 24 * 60 * 60 * 1000)); // 7 days from now
+            
+            const formatDate = (date) => {
+                return date.toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+            };
+            
+            document.getElementById('currentDate').textContent = formatDate(now);
+            document.getElementById('dueDate').textContent = formatDate(dueDate);
+        }
+
+        // Download QR code function
+        function downloadQR() {
+            const link = document.createElement('a');
+            link.href = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/pay-hr3KqpzRdUXrdFHedByFkPodWhtA02.jpg';
+            link.download = 'asteller-payment-qr.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setDates();
+            
+            // Add staggered animation to elements
+            const elements = document.querySelectorAll('.loading-animation');
+            elements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+
+        // Add smooth scrolling and interactive effects
+        document.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.background-pattern');
+            const speed = scrolled * 0.5;
+            parallax.style.transform = `translateY(${speed}px)`;
+        });
+
+        // Add hover effects to product items
+        document.querySelectorAll('.product-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
