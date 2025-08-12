@@ -491,7 +491,10 @@
                     <span class="label">Date:</span>
                     <span class="value" id="currentDate"></span>
                 </div>
-                
+                <div class="invoice-detail">
+                    <span class="label">Due Date:</span>
+                    <span class="value" id="dueDate"></span>
+                </div>
             </div>
 
             <div class="invoice-section">
@@ -504,7 +507,6 @@
                     <span class="label">Project:</span>
                     <span class="value">Music Posters</span>
                 </div>
-                
             </div>
         </div>
 
@@ -512,42 +514,49 @@
             <div class="products-header">
                 <div>Item</div>
                 <div>Description</div>
-                
+                <div>Price</div>
             </div>
 
             <div class="product-item">
                 <div class="product-icon">
-    <img src="Images/audio.jpg" alt="Audio Poster" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
-</div>
+                    <img src="Images/audio.jpg" alt="Audio Poster" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
+                </div>
                 <div class="product-details">
                     <h4>Audio Poster Design</h4>
                     <p>Professional audio poster design for music promotion with modern aesthetics and brand alignment</p>
                 </div>
+                <div class="product-price">₹333</div>
             </div>
 
             <div class="product-item">
                 <div class="product-icon">
-    <img src="Images/video.jpg" alt="Video Poster" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
-</div>
+                    <img src="Images/video.jpg" alt="Video Poster" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
+                </div>
                 <div class="product-details">
                     <h4>Video Poster Design</h4>
                     <p>High-impact video poster design optimized for social media and digital platforms</p>
                 </div>
+                <div class="product-price">₹333</div>
             </div>
 
             <div class="product-item">
                 <div class="product-icon">
-    <img src="Images/banner.jpg" alt="YouTube Banner" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
-</div>
+                    <img src="Images/banner.jpg" alt="YouTube Banner" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
+                </div>
                 <div class="product-details">
                     <h4>YouTube Banner Design</h4>
                     <p>Custom YouTube banner design with channel branding and professional layout</p>
                 </div>
+                <div class="product-price">₹333</div>
             </div>
         </div>
 
         <div class="total-section loading-animation stagger-4">
             <div class="content">
+                <div class="total-row">
+                    <span class="total-label">Subtotal:</span>
+                    <span class="total-amount">₹999</span>
+                </div>
                 <div class="total-row final-total">
                     <span class="total-label">Total Amount:</span>
                     <span class="total-amount">₹999</span>
@@ -560,15 +569,12 @@
                 <h3>Scan to Pay</h3>
                 <p>Use any UPI app to scan the QR code and make payment</p>
                 
-<div class="qr-container" style="display: inline-flex; flex-direction: column; align-items: center;">
-    <img src="Images/pay.jpg" alt="Payment QR Code" style="margin-bottom: 15px; width:200px; height:200px; border-radius:12px;">
-    <button class="download-btn" onclick="downloadQR()">
-       Download QR
-    </button>
-</div>
-
-
-
+                <div class="qr-container" style="display: inline-flex; flex-direction: column; align-items: center;">
+                    <img src="Images/pay.jpg" alt="Payment QR Code" style="margin-bottom: 15px; width:200px; height:200px; border-radius:12px;">
+                    <button class="download-btn" onclick="downloadQR()">
+                        Download QR
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -598,12 +604,40 @@
 
         // Download QR code function
         function downloadQR() {
-            const link = document.createElement('a');
-            link.href = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/pay-hr3KqpzRdUXrdFHedByFkPodWhtA02.jpg';
-            link.download = 'asteller-payment-qr.jpg';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            
+            img.crossOrigin = 'anonymous';
+            img.onload = function() {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                
+                // Convert canvas to blob and download
+                canvas.toBlob(function(blob) {
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = 'asteller-payment-qr.jpg';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(link.href);
+                }, 'image/jpeg', 0.9);
+            };
+            
+            img.onerror = function() {
+                // Fallback: try direct download
+                const link = document.createElement('a');
+                link.href = 'Images/pay.jpg';
+                link.download = 'asteller-payment-qr.jpg';
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+            
+            img.src = 'Images/pay.jpg';
         }
 
         // Initialize
